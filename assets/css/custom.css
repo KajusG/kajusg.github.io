@@ -329,6 +329,253 @@ a:visited {
     color: #0056b3;
 }
 
+/* ----------------------------------------------------------------
+   1. Paslaugų Sekcijos Fonas (Background)
+   ---------------------------------------------------------------- */
+.services {
+  /* Pakeitimas: Padidiname minimalų aukštį, kad garantuoti matomumą */
+  min-height: 100vh; 
+  
+  padding: 80px 0; /* Padidiname padding'ą */
+  
+  /* Gradiento Nustatymai */
+  /* Galite pakeisti spalvas savo nuožiūra! */
+  background: linear-gradient(-45deg, #a7c5eb, #b8a7eb, #ebd7a7, #a7ebc4);
+  
+  /* Pakeitimas: Dar labiau padidiname fono dydį (pvz., iki 600%), 
+     kad perėjimas būtų itin švelnus ir atrodytų kaip "visa spalva". */
+  background-size: 600% 600%;
+  
+  /* Animacija */
+  animation: gradientAnimation 20s ease infinite; /* Sulėtiname animaciją iki 20s */
+}
+
+/* ----------------------------------------------------------------
+   2. Keyframes Animacija (lieka ta pati, bet lėtesnė)
+   ---------------------------------------------------------------- */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ----------------------------------------------------------------
+   3. Fono Figūrų KONTEINERIS (Apribojame plotą)
+   ---------------------------------------------------------------- */
+.background-shapes {
+  position: absolute;
+  top: 0; /* Pradžia nuo sekcijos viršaus */
+  right: 0; /* Pradžia nuo sekcijos dešinės */
+  
+  /* NAUJA: Apribojame šio konteinerio dydį */
+  width: 60%; /* Figūros užima tik 60% sekcijos pločio */
+  height: 60%; /* Figūros užima tik 60% sekcijos aukščio */
+  
+  z-index: 1; 
+  pointer-events: none;
+  /* (Galima įjungti background-color: rgba(255, 0, 0, 0.1); testavimui) */
+}
+
+/* ----------------------------------------------------------------
+   5. Individualios Figūros ir Pozicijos (Pozicijos dabar skaičiuojamos nuo 60% x 60% konteinerio)
+   ---------------------------------------------------------------- */
+
+/* 1. Mėlynas Apskritimas */
+.circle-1 {
+  width: 250px; height: 250px;
+  background-color: #2196f3; 
+  border-radius: 50%;
+  top: 5%;    /* Viršuje, konteinerio 5% atstumu nuo viršaus */
+  left: 5%;   /* Kairėje, konteinerio 5% atstumu nuo kairės */
+  animation-duration: 20s;
+}
+
+/* 2. Violetinis Kvadratas */
+.square-2 {
+  width: 100px; height: 100px;
+  background-color: #9c27b0; 
+  top: 60%; 
+  right: 10%; /* Dešinėje, konteinerio 10% atstumu nuo dešinės */
+  transform: rotate(45deg); 
+  animation-duration: 30s;
+  animation-delay: 5s;
+}
+
+/* 3. Žalsvas Trikampis */
+.triangle-3 {
+  width: 0; height: 0;
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-bottom: 250px solid #4caf50; 
+  bottom: 0; /* Apačioje, konteinerio apačioje */
+  left: 30%;
+  /* Trikampiui taikome ir plaukiojimą, ir sukimąsi */
+  animation: spinning 15s infinite linear, floating 25s infinite ease-in-out;
+}
+
+/* 4. Oranžinis Apskritimas */
+.circle-4 {
+  width: 180px; height: 180px;
+  background-color: #ff9800; 
+  border-radius: 50%;
+  top: 40%; 
+  left: 70%; 
+  animation-duration: 25s;
+  animation-delay: 10s;
+}
+
+/* ----------------------------------------------------------------
+   1. CV Sekcijos Fonas (Animuotas ŠVIESUS Gradientas)
+   ---------------------------------------------------------------- */
+.resume {
+  position: relative;
+  min-height: 100vh;
+  padding: 80px 0;
+  overflow: hidden;
+  
+  /* Gradiento Nustatymai (Šviesios, pastelinės spalvos) */
+  background: linear-gradient(-45deg, #f0f7ff, #e8f0f8, #f5f8ff, #e0f2f7);
+  background-size: 600% 600%;
+  animation: gradientAnimation 25s ease infinite; 
+}
+
+/* Animacija lieka ta pati */
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ----------------------------------------------------------------
+   2. Fono Figūros (Subtilios ir Šviesios)
+   ---------------------------------------------------------------- */
+.background-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; 
+  pointer-events: none;
+}
+
+.shape {
+  position: absolute;
+  opacity: 0.25; /* Šiek tiek didesnis permatomumas, kad atrodytų subtiliau */
+  animation: floating 25s infinite ease-in-out;
+}
+
+/* Trikampio forma (Šviesiai pilkas atspalvis) */
+.triangle-1, .triangle-2 {
+  width: 0; height: 0;
+  border-left: 120px solid transparent;
+  border-right: 120px solid transparent;
+  border-bottom: 200px solid #dcdcdc; /* Labai šviesiai pilka */
+  animation: floating 20s infinite ease-in-out, spinning 15s infinite linear;
+}
+
+/* Kvadratas/Deimantas (Švelniai melsva) */
+.square-3 {
+  width: 150px; height: 150px;
+  background-color: #a3daff; /* Švelniai melsva */
+  transform: rotate(45deg); 
+  animation: spinning 25s infinite linear;
+}
+
+/* Apskritimas (Švelniai žalsva) */
+.circle-4 {
+  width: 180px; height: 180px;
+  background-color: #c9e5b8; /* Švelniai žalsva */
+  border-radius: 50%;
+  animation: floating 35s infinite ease-in-out;
+}
+
+/* Figūrų pozicijos lieka tos pačios */
+.triangle-1 { top: 10%; left: 5%; }
+.triangle-2 { bottom: 5%; right: 15%; animation-delay: 5s; }
+.square-3 { top: 60%; left: 25%; }
+.circle-4 { top: 20%; right: 30%; }
+
+
+/* ANIMACIJOS KEYFRAMES (Lieka tos pačios) */
+@keyframes floating {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(50px, -30px) rotate(10deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes spinning {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ----------------------------------------------------------------
+   3. Turinio (CV) Stiliai (Būtina patikrinti)
+   ---------------------------------------------------------------- */
+
+/* Turinio konteineris virš visko */
+.resume .container {
+    position: relative;
+    z-index: 2; 
+}
+
+/* CV įrašai turi likti balti/šviesūs, kad išsiskirtų */
+.resume .resume-item {
+  /* Fonas lieka baltas, kad turinys būtų aiškiai atskirtas nuo animuoto fono */
+  background-color: #ffffff; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  z-index: 3; 
+}
+
+/* Teksto ir antraščių spalvos turėtų likti TAMSios, kad būtų geras kontrastas ant šviesaus fono */
+.resume .resume-title,
+.resume .resume-item h4,
+.resume .resume-item h5,
+.resume .resume-item p {
+    color: #333333; /* Tamsi spalva */
+}
+
+/* Vertikalios linijos spalva */
+.resume .resume-item {
+  border-left: 2px solid #aaaaaa; /* Šviesiai pilka linija */
+}
+
+/* Laiko žymės apskritimo spalva */
+.resume .resume-item:before {
+  border: 2px solid #5d5d5d; /* Tamsesnis rėmelis */
+}
+
+/* ----------------------------------------------------------------
+   3. Kortelių Išvaizdos Korekcija (Užtikriname, kad kortelės uždengtų gradientą)
+   ---------------------------------------------------------------- */
+.service-item {
+  /* Tvirtai nustatome NEPERMATOMĄ foną kortelėms */
+  background-color: #ffffff; 
+  
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Stipresnis šešėlis, kad išsiskirtų */
+  transition: all 0.3s ease;
+  position: relative; 
+  z-index: 2; /* Svarbu: kad kortelė būtų virš fono */
+}
+
+/* ----------------------------------------------------------------
+   4. Teksto Matomumo Užtikrinimas
+   ---------------------------------------------------------------- */
+.section-title h2,
+.section-title p {
+  color: #222222; /* Tamsus, gerai matomas tekstas */
+  position: relative;
+  z-index: 3;
+}
+
 /* ======================================================= */
 /* I. NUMERUOTO SĄRAŠO STILIUS (OL) */
 /* ======================================================= */
@@ -755,6 +1002,448 @@ ul li::before {
   right: 0;
   background-color: var(--nav-mobile-background-color);
   transition: 0.3s;
+}
+
+/* ==================================== */
+/* 1. KEYFRAMES ANIMACIJOS              */
+/* ==================================== */
+
+/* Lentelės Pavadinimo Animacija */
+@keyframes captionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Visos Lentelės Animacija */
+@keyframes tableFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px); 
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================================== */
+/* 2. BENDRI LENTELĖS STILIAI IR ANIMACIJA */
+/* ==================================== */
+
+.animated-table {
+  width: 80%;
+  margin: 50px auto; /* Centravimas */
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Šešėlis */
+  
+  /* Animacija */
+  animation-name: tableFadeIn;
+  animation-duration: 1.2s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+  animation-delay: 0.7s; /* Prasideda po pavadinimo */
+  
+  opacity: 0; /* Pradinė būsena */
+}
+
+/* ==================================== */
+/* 3. PAVADINIMO (CAPTION) STILIAI      */
+/* ==================================== */
+
+.table-caption-fade {
+  caption-side: top;
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #333;
+  padding: 15px 0 10px 0;
+  text-align: left;
+  
+  /* Animacija */
+  animation-name: captionFadeIn;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+  animation-delay: 0.2s; 
+  
+  opacity: 0; /* Pradinė būsena */
+}
+
+/* ==================================== */
+/* 4. ANTGALIO (HEADER) STILIAI         */
+/* ==================================== */
+
+.animated-table thead th {
+  background-color: #007bff; /* Mėlynas fonas */
+  color: white;
+  padding: 15px;
+  text-align: left;
+  border: none;
+}
+
+/* ==================================== */
+/* 5. TURINIO (BODY) IR FOOTER STILIAI  */
+/* ==================================== */
+
+.animated-table tbody td, .animated-table tfoot td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Eilučių spalvos kaitos efektas (zebrinis) */
+.animated-table tbody tr:nth-child(even) {
+  background-color: #f0f8ff; /* Šviesiai mėlyna porinė eilutė */
+}
+
+/* Footer stiliai */
+.animated-table tfoot td {
+  background-color: #e6e6e6;
+  font-weight: bold;
+}
+
+/* ==================================== */
+/* 6. KONKREČIŲ DUOMENŲ STILIAI (Spalvos) */
+/* ==================================== */
+
+.positive {
+  color: #28a745; /* Žalia spalva augimui */
+  font-weight: bold;
+}
+
+.negative {
+  color: #dc3545; /* Raudona spalva kritimui */
+  font-weight: bold;
+}
+
+/* 1. Apibrėžiame @keyframes taisyklę */
+@keyframes pulse {
+  0% {
+    transform: scale(1); /* Pradžia: Normalus dydis */
+  }
+  50% {
+    transform: scale(1.15); /* Vidurys: 15% didesnis (pulsas) */
+    color: red; /* Pakeičia spalvą pulso metu */
+  }
+  100% {
+    transform: scale(1); /* Pabaiga: Grįžta į normalų dydį */
+  }
+}
+
+/* ==================================== */
+/* 1. KEYFRAMES ANIMACIJA SUKIMUISI     */
+/* ==================================== */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); /* Pradžia: 0 laipsnių */
+  }
+  100% {
+    transform: rotate(360deg); /* Pabaiga: Pilnas 360 laipsnių apsisukimas */
+  }
+}
+
+/* ==================================== */
+/* 2. KONTEINERIO CENTRAVIMAS           */
+/* (Naudinga, jei naudojate kaip Pre-loader) */
+/* ==================================== */
+.preloader-container {
+  display: flex;
+  justify-content: center; /* Centravimas horizontaliai */
+  align-items: center;     /* Centravimas vertikaliai */
+  /* Šias eilutes naudokite, jei norite, kad krovimas uždengtų visą puslapį */
+  /* position: fixed; 
+  top: 0; left: 0; 
+  width: 100%; height: 100%; 
+  background-color: #fff; 
+  z-index: 9999; */
+}
+
+/* ==================================== */
+/* 3. SPINNERIO STILIAI IR TAIKYMAS     */
+/* ==================================== */
+
+/* BENDRI STILIAI (Ankstesnis kodas) */
+.fade-in-section {
+  /* ... kiti stiliai ... */
+  animation-name: sectionAppear;
+  animation-duration: 1.5s;
+  animation-fill-mode: both;
+  opacity: 0; 
+}
+
+/* @keyframes taisyklė su judesiu (numatytoji) */
+@keyframes sectionAppear {
+  from {
+    opacity: 0;
+    transform: translateY(25px); /* JUDESYS */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================================================== */
+/* PRITAIKYMAS: prefers-reduced-motion: reduce           */
+/* ==================================================== */
+@media (prefers-reduced-motion: reduce) {
+  
+  /* Išjungia visas animacijas šiam elementui */
+  .fade-in-section {
+    animation: none;
+    /* Nustato iškart galutinę būseną, kad turinys būtų matomas */
+    opacity: 1; 
+    /* Pašalina bet kokį poslinkį, jei jis buvo taikytas be animacijos */
+    transform: none; 
+  }
+  
+  /* ALTERNATYVA: jei norite tik supaprastinti, o ne išjungti: 
+  .fade-in-section {
+    animation-duration: 0.5s; 
+    animation-name: simpleFadeIn; 
+  }
+  
+  @keyframes simpleFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  */
+}
+
+/* BENDRI SPINNERIO STILIAI (Ankstesnis kodas) */
+.spinner {
+  /* ... kiti stiliai (width, height, border, border-radius) ... */
+  animation-name: spin;
+  animation-duration: 0.8s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite; /* BEDA: Sukasi be galo */
+}
+
+/* @keyframes taisyklė sukimuisi */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ==================================== */
+/* 1. KEYFRAMES ANIMACIJA JUDĖJIMUI     */
+/* ==================================== */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%; /* Pradžia: Viršutinis kairys kampas */
+  }
+  50% {
+    background-position: 100% 50%; /* Vidurys: Dešinysis kampas */
+  }
+  100% {
+    background-position: 0% 50%; /* Pabaiga: Grįžta į pradinę poziciją */
+  }
+}
+
+/* ==================================== */
+/* 2. PASLAUGŲ SEKCIJOS STILIAI         */
+/* ==================================== */
+.services-section {
+  padding: 80px 20px;
+  color: #fff; /* Baltas tekstas, kad matytųsi ant tamsaus fono */
+  text-align: center;
+  
+  /* Gradiento nustatymai */
+  background: linear-gradient(-45deg, #1f4068, #162447, #5c3b5d, #a2394c); 
+  /* Spalvos: Tamsiai mėlyna, Indigo, Tamsiai violetinė, Tamsiai raudona */
+
+  background-size: 400% 400%; /* Padaro gradientą 4 kartus didesnį už elementą */
+  
+  /* Animacijos taikymas */
+  animation: gradientShift 20s ease infinite; /* Labai lėtas ir nuolatinis judėjimas */
+}
+
+/* Papildomi stiliai vizualinei estetikai */
+.services-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    /* Pridėta shadow, kad tekstas geriau išsiskirtų */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); 
+}
+
+#about-section {
+    position: relative;
+    padding: 80px 20px;
+    background-color: #f4f4f9; /* Šviesus fonas */
+    overflow: hidden; /* Svarbu, kad figūros neišeitų už sekcijos ribų */
+}
+
+/* Konteineris, kad animacijos būtų virš aprašymo */
+.animated-shapes-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Leidžia spragtelėti per formas */
+    opacity: 0.5; /* Figūros bus permatomos */
+}
+
+.shape {
+    position: absolute;
+}
+
+/* --- Konkrečios figūros ir jų stilius --- */
+
+/* Apskritimas - Judėjimas ir Sukimas */
+.circle {
+    width: 80px;
+    height: 80px;
+    background-color: #2a9d8f; /* Turkio spalva */
+    border-radius: 50%;
+    top: 10%;
+    left: 15%;
+    animation: float 20s ease-in-out infinite, spin 15s linear infinite;
+}
+
+/* Kvadratas - Didinimas ir Sukimas */
+.square {
+    width: 60px;
+    height: 60px;
+    background-color: #e9c46a; /* Geltona-auksinė */
+    top: 70%;
+    right: 5%;
+    animation: scale-rotate 12s ease infinite;
+}
+
+/* Trikampis - Naudojant border stilių */
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 80px solid #e76f51; /* Koralų spalva */
+    top: 40%;
+    left: 80%;
+    animation: float 25s ease-in-out reverse infinite, spin 10s linear infinite;
+}
+
+/* --- Animacijos taisyklės --- */
+
+/* 1. Judėjimas (Floating) */
+@keyframes float {
+    0% {
+        transform: translateY(0px) translateX(0px);
+    }
+    50% {
+        transform: translateY(-50px) translateX(30px);
+    }
+    100% {
+        transform: translateY(0px) translateX(0px);
+    }
+}
+
+/* 2. Sukimas (Spin) */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 3. Didinimas ir Sukimas kartu */
+@keyframes scale-rotate {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        transform: scale(1.5) rotate(180deg);
+    }
+    100% {
+        transform: scale(1) rotate(360deg);
+    }
+}
+
+
+
+/* ==================================================== */
+/* PRITAIKYMAS: prefers-reduced-motion: reduce           */
+/* ==================================================== */
+@media (prefers-reduced-motion: reduce) {
+  
+  /* 1. Išjungia nuolatinį sukimąsi */
+  .spinner {
+    animation: none; 
+    /* Išlaiko formą, bet nustoja suktis. Galite palikti jį statinį arba: */
+    border-top: 5px solid #007bff; /* Galima palikti spalvą */
+  }
+  
+  /* 2. Galima paslėpti visą krovimo animacijos konteinerį (jei jis naudojamas kaip Pre-loader) */
+  .preloader-container {
+    display: none;
+  }
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3; /* Šviesi, nekintanti kraštinės dalis */
+  border-top: 5px solid #007bff; /* Tamsi, besisukanti kraštinės dalis */
+  border-radius: 50%; /* Padaro elementą apvalų */
+  
+  /* Animacijos taikymas */
+  animation-name: spin;              /* Susiejimas su @keyframes taisykle */
+  animation-duration: 0.8s;          /* Greitas, 0.8 sekundės trukmės ciklas */
+  animation-timing-function: linear; /* Tiesinis greitis (vienodas) */
+  animation-iteration-count: infinite; /* Kartojasi be galo */
+}
+
+/* 2. Taikome animaciją elementui */
+.heart-pulse {
+  font-size: 30px;
+  display: inline-block;
+  
+  /* Animacijos nustatymai */
+  animation-name: pulse; /* Animacijos pavadinimas */
+  animation-duration: 1s; /* Animacijos trukmė (1 sekundė) */
+  animation-timing-function: ease-in-out; /* Pagreitėja ir sulėtėja */
+  animation-iteration-count: infinite; /* Kartojasi be galo */
+}
+
+/* --- ĮPRASTAS STILIUS (PALIEKATE NEPAKEISTĄ) --- */
+
+.heart-pulse {
+  font-size: 30px;
+  display: inline-block;
+  
+  /* Animacijos nustatymai */
+  animation-name: pulse; 
+  animation-duration: 1s; 
+  animation-timing-function: ease-in-out; 
+  animation-iteration-count: infinite; 
+}
+
+/* --- ADAPTACIJA VARTOTOJAMS SU JUDESIO JAUTRUMU --- */
+
+@media (prefers-reduced-motion: reduce) {
+  
+  /* Visiškas animacijos išjungimas */
+  .heart-pulse {
+    /* Nustato, kad elementas nenaudotų jokios animacijos */
+    animation: none !important; 
+    /* Papildoma apsauga, nors 'animation: none' dažnai to pakanka.
+       Ji taip pat išjungia bet kokius 'transition' perėjimus, jei jie būtų pridėti.
+    */
+    transition: none !important; 
+    
+    /* Patarimas: Palikite elementą tokio dydžio ir būsenos, 
+       kokia jis būtų įprastai animacijos metu (pvz., nepadidintą). 
+       Jei animacija keičia dydį, galite nustatyti jį fiksuotai, pvz.:
+       transform: scale(1); 
+    */
+  }
 }
 
 /*--------------------------------------------------------------
