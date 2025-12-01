@@ -1429,6 +1429,66 @@ Kuriu mažos galios elektronikos projektus: LED valdymo sistemas, temperatūros 
 
   </footer>
 
+<section id="game-section">
+    <div class="container">
+        <h2>Mano Žaidimas</h2>
+        
+        <!-- Valdymo skydelis -->
+        <div class="game-controls">
+            <label for="difficulty">Sudėtingumas:</label>
+            <select id="difficulty">
+                <option value="6">Lengvas (4x3)</option>
+                <option value="12">Sunkus (6x4)</option>
+            </select>
+            
+            <button id="start-btn" class="btn">Start</button>
+            <button id="reset-btn" class="btn">Atnaujinti</button>
+        </div>
+
+        <!-- Statistikos skydelis ("Švieslentė") -->
+        <div class="game-stats">
+            <!-- Viršus: Einamasis žaidimas -->
+            <div class="stats-row current-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Laikas</span>
+                    <span class="stat-value"><span id="time">0</span>s</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Bandymai</span>
+                    <span class="stat-value" id="moves">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Poros</span>
+                    <span class="stat-value">
+                        <span id="matches">0</span> / <span id="total-pairs-display">-</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Skirtukas -->
+            <div class="stats-divider"></div>
+
+            <!-- Apačia: Rekordai -->
+            <div class="stats-row best-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Rekordas (ėjimai)</span>
+                    <span class="stat-value" id="best-score">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Rekordas (laikas)</span>
+                    <span class="stat-value" id="best-time">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Laimėjimo žinutė -->
+        <div id="win-message" class="hidden"></div>
+
+        <!-- Žaidimo lenta -->
+        <div id="game-board" class="game-board"></div>
+    </div>
+</section>
+
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

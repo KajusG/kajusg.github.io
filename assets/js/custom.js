@@ -280,3 +280,391 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 10);
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const gameBoard = document.getElementById('game-board');
+    const moveDisplay = document.getElementById('moves');
+    const matchDisplay = document.getElementById('matches');
+    const winMessage = document.getElementById('win-message');
+    const startBtn = document.getElementById('start-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const difficultySelect = document.getElementById('difficulty');
+
+    let hasFlippedCard = false;
+    let lockBoard = false;
+    let firstCard, secondCard;
+    let moves = 0;
+    let matches = 0;
+    let totalPairs = 0;
+
+    // a. Išplėstas duomenų rinkinys (reikia bent 12 unikalių elementų sunkiam lygiui)
+    const cardData = [
+        { name: 'js', content: '📜' },
+        { name: 'html', content: '🌐' },
+        { name: 'css', content: '🎨' },
+        { name: 'react', content: '⚛️' },
+        { name: 'python', content: '🐍' },
+        { name: 'database', content: '🗄️' },
+        { name: 'git', content: '🐈' },
+        { name: 'bug', content: '🐞' },
+        { name: 'mobile', content: '📱' },
+        { name: 'security', content: '🔒' },
+        { name: 'cloud', content: '☁️' },  // Naujas
+        { name: 'ai', content: '🤖' }      // Naujas
+    ];
+
+    // Funkcija žaidimo inicializavimui
+    function initGame() {
+        // b. ii. ir iii. Atstatoma būsena ir statistika
+        gameBoard.innerHTML = ''; // Išvalome senas korteles (Constraint: nenaudojame atskirų lentų)
+        winMessage.classList.add('hidden');
+        moves = 0;
+        matches = 0;
+        [hasFlippedCard, lockBoard] = [false, false];
+        [firstCard, secondCard] = [null, null];
+        updateStats();
+        
+        // Gauname pasirinktą porų skaičių (6 arba 12)
+        totalPairs = parseInt(difficultySelect.value);
+        
+        // Dinamiškai nustatome tinklelio stulpelius pagal užduotį
+        if (totalPairs === 6) {
+            // Lengvas: 4x3 (12 kortelių) -> 4 stulpeliai
+            gameBoard.style.gridTemplateColumns = 'repeat(4, 1fr)';
+        } else {
+            // Sunkus: 6x4 (24 kortelės) -> 6 stulpeliai
+            gameBoard.style.gridTemplateColumns = 'repeat(6, 1fr)';
+        }
+
+        // b. i. Kortelių paruošimas ir permaišymas
+        const selectedData = cardData.slice(0, totalPairs);
+        const gameDeck = [...selectedData, ...selectedData];
+        
+        // Atsitiktinis maišymas
+        gameDeck.sort(() => 0.5 - Math.random());
+
+        // Kortelių generavimas
+        gameDeck.forEach(item => {
+            const card = document.createElement('div');
+            card.classList.add('memory-card');
+            card.dataset.framework = item.name;
+
+            card.innerHTML = `
+                <div class="front-face">${item.content}</div>
+                <div class="back-face">?</div>
+            `;
+            
+            card.addEventListener('click', flipCard);
+            gameBoard.appendChild(card);
+        });
+    }
+
+    // Kortelės atvertimas
+    function flipCard() {
+        if (lockBoard) return;
+        if (this === firstCard) return;
+
+        this.classList.add('flip');
+
+        if (!hasFlippedCard) {
+            hasFlippedCard = true;
+            firstCard = this;
+            return;
+        }
+
+        secondCard = this;
+        incrementMoves();
+        checkForMatch();
+    }
+
+    // Sutapimo tikrinimas
+    function checkForMatch() {
+        let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+        isMatch ? disableCards() : unflipCards();
+    }
+
+    function disableCards() {
+        firstCard.removeEventListener('click', flipCard);
+        secondCard.removeEventListener('click', flipCard);
+        matches++;
+        updateStats();
+        resetBoard();
+        checkWin();
+    }
+
+    function unflipCards() {
+        lockBoard = true;
+        setTimeout(() => {
+            firstCard.classList.remove('flip');
+            secondCard.classList.remove('flip');
+            resetBoard();
+        }, 1000);
+    }
+
+    function resetBoard() {
+        [hasFlippedCard, lockBoard] = [false, false];
+        [firstCard, secondCard] = [null, null];
+    }
+
+    function incrementMoves() {
+        moves++;
+        updateStats();
+    }
+
+    function updateStats() {
+        moveDisplay.textContent = moves;
+        matchDisplay.textContent = matches;
+    }
+
+    function checkWin() {
+        if (matches === totalPairs) {
+            winMessage.classList.remove('hidden');
+            winMessage.querySelector('h3').textContent = `Sveikiname! Laimėjote per ${moves} ėjimus! 🎉`;
+        }
+    }
+
+    // Įvykių klausikliai (Event Listeners)
+    startBtn.addEventListener('click', initGame);
+    resetBtn.addEventListener('click', initGame);
+    
+    // b. Pasikeitus sunkumo lygiui, lenta užkraunama iš naujo automatiškai
+    difficultySelect.addEventListener('change', initGame);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Elementai ---
+    const gameBoard = document.getElementById('game-board');
+    
+    // Statistikos elementai (iš naujo HTML)
+    const moveDisplay = document.getElementById('moves');
+    const matchDisplay = document.getElementById('matches');
+    const totalPairsDisplay = document.getElementById('total-pairs-display');
+    const timeDisplay = document.getElementById('time');
+    const bestScoreDisplay = document.getElementById('best-score');
+    const bestTimeDisplay = document.getElementById('best-time');
+    
+    const winMessage = document.getElementById('win-message');
+    const startBtn = document.getElementById('start-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const difficultySelect = document.getElementById('difficulty');
+
+    // --- Kintamieji ---
+    let hasFlippedCard = false;
+    let lockBoard = false;
+    let firstCard, secondCard;
+    let moves = 0;
+    let matches = 0;
+    let totalPairs = 0;
+    
+    // Laikmatis
+    let seconds = 0;
+    let timerInterval = null;
+
+    // Duomenys
+    const cardData = [
+        { name: 'js', content: '📜' },
+        { name: 'html', content: '🌐' },
+        { name: 'css', content: '🎨' },
+        { name: 'react', content: '⚛️' },
+        { name: 'python', content: '🐍' },
+        { name: 'database', content: '🗄️' },
+        { name: 'git', content: '🐈' },
+        { name: 'bug', content: '🐞' },
+        { name: 'mobile', content: '📱' },
+        { name: 'security', content: '🔒' },
+        { name: 'cloud', content: '☁️' },
+        { name: 'ai', content: '🤖' }
+    ];
+
+    // --- Funkcijos ---
+
+    // 1. Laikmačio valdymas
+    function startTimer() {
+        stopTimer(); 
+        seconds = 0;
+        timeDisplay.textContent = '0';
+        timerInterval = setInterval(() => {
+            seconds++;
+            timeDisplay.textContent = seconds;
+        }, 1000);
+    }
+
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    }
+
+    // 2. Statistikos ir Rekordų atvaizdavimas
+    function updateDashboard() {
+        // Einamoji statistika
+        moveDisplay.textContent = moves;
+        matchDisplay.textContent = matches;
+        totalPairsDisplay.textContent = difficultySelect.value; // Atnaujina "/ X" dalį
+        
+        // Rekordai iš localStorage
+        const currentLevel = difficultySelect.value;
+        const savedMoves = localStorage.getItem(`best-moves-${currentLevel}`);
+        const savedTime = localStorage.getItem(`best-time-${currentLevel}`);
+
+        bestScoreDisplay.textContent = savedMoves ? `${savedMoves} band.` : '-';
+        bestTimeDisplay.textContent = savedTime ? `${savedTime}s` : '-';
+    }
+
+    // 3. Pradinis ekranas (be kortelių)
+    function showWelcomeScreen() {
+        stopTimer();
+        gameBoard.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #555;">
+                <h3>Pasiruošę mankštinti atmintį? 🧠</h3>
+                <p>Pasirinkite sudėtingumo lygį ir spauskite <strong>Start</strong>!</p>
+            </div>
+        `;
+        
+        // Nunuliname statistiką
+        moves = 0;
+        matches = 0;
+        seconds = 0;
+        timeDisplay.textContent = '0';
+        winMessage.classList.add('hidden');
+        
+        // Sutvarkome vaizdą
+        gameBoard.style.gridTemplateColumns = '1fr'; 
+        updateDashboard();
+    }
+
+    // 4. Žaidimo inicializavimas
+    function initGame() {
+        gameBoard.innerHTML = '';
+        winMessage.classList.add('hidden');
+        moves = 0;
+        matches = 0;
+        [hasFlippedCard, lockBoard] = [false, false];
+        [firstCard, secondCard] = [null, null];
+        
+        // Atnaujiname statistiką ir paleidžiame laiką
+        updateDashboard();
+        startTimer();
+        
+        totalPairs = parseInt(difficultySelect.value);
+        
+        // Tinklelis
+        if (totalPairs === 6) {
+            gameBoard.style.gridTemplateColumns = 'repeat(4, 1fr)';
+        } else {
+            gameBoard.style.gridTemplateColumns = 'repeat(6, 1fr)';
+        }
+
+        // Kortelės
+        const selectedData = cardData.slice(0, totalPairs);
+        const gameDeck = [...selectedData, ...selectedData];
+        gameDeck.sort(() => 0.5 - Math.random());
+
+        gameDeck.forEach(item => {
+            const card = document.createElement('div');
+            card.classList.add('memory-card');
+            card.dataset.framework = item.name;
+            card.innerHTML = `
+                <div class="front-face">${item.content}</div>
+                <div class="back-face">?</div>
+            `;
+            card.addEventListener('click', flipCard);
+            gameBoard.appendChild(card);
+        });
+    }
+
+    // 5. Kortelių vartymas
+    function flipCard() {
+        if (lockBoard) return;
+        if (this === firstCard) return;
+
+        this.classList.add('flip');
+
+        if (!hasFlippedCard) {
+            hasFlippedCard = true;
+            firstCard = this;
+            return;
+        }
+
+        secondCard = this;
+        moves++; // Bandymas skaičiuojamas tik po antros kortelės
+        updateDashboard();
+        checkForMatch();
+    }
+
+    function checkForMatch() {
+        let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+        isMatch ? disableCards() : unflipCards();
+    }
+
+    function disableCards() {
+        firstCard.removeEventListener('click', flipCard);
+        secondCard.removeEventListener('click', flipCard);
+        matches++;
+        updateDashboard();
+        resetBoard();
+        checkWin();
+    }
+
+    function unflipCards() {
+        lockBoard = true;
+        setTimeout(() => {
+            firstCard.classList.remove('flip');
+            secondCard.classList.remove('flip');
+            resetBoard();
+        }, 1000);
+    }
+
+    function resetBoard() {
+        [hasFlippedCard, lockBoard] = [false, false];
+        [firstCard, secondCard] = [null, null];
+    }
+
+    // 6. Laimėjimas ir Rekordai
+    function checkWin() {
+        if (matches === totalPairs) {
+            stopTimer();
+            winMessage.classList.remove('hidden');
+            
+            const currentLevel = difficultySelect.value;
+            const movesKey = `best-moves-${currentLevel}`;
+            const timeKey = `best-time-${currentLevel}`;
+            
+            const savedMoves = localStorage.getItem(movesKey);
+            const savedTime = localStorage.getItem(timeKey);
+            
+            let message = `Sveikiname! Rezultatas: ${moves} band. per ${seconds} s. 🎉`;
+            let isNewRecord = false;
+
+            // Tikriname ėjimų rekordą
+            if (!savedMoves || moves < parseInt(savedMoves)) {
+                localStorage.setItem(movesKey, moves);
+                message += `<br><strong>🏆 Naujas ėjimų rekordas!</strong>`;
+                isNewRecord = true;
+            }
+
+            // Tikriname laiko rekordą
+            if (!savedTime || seconds < parseInt(savedTime)) {
+                localStorage.setItem(timeKey, seconds);
+                message += `<br><strong>⚡ Naujas laiko rekordas!</strong>`;
+                isNewRecord = true;
+            }
+
+            if (isNewRecord) updateDashboard();
+
+            winMessage.innerHTML = `<h3>${message}</h3>`;
+        }
+    }
+
+    // --- Įvykiai ---
+    startBtn.addEventListener('click', initGame);
+    resetBtn.addEventListener('click', initGame);
+    
+    difficultySelect.addEventListener('change', () => {
+        showWelcomeScreen(); // Pakeitus lygį - grįžti į pradžią
+    });
+
+    // Pirmas užkrovimas
+    showWelcomeScreen();
+});
